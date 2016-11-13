@@ -48,7 +48,7 @@ type Gen struct {
 }
 
 // setup board for robby. place soda cans around the map
-func (gen *Gen) SetupBoard(NumberOfCans int) [][] int {
+func (gen *Gen) SetupBoard() [][] int {
 	gen.boardArray = make([][]int, SIZE)
 	for i := 0; i < SIZE; i++ {
 		gen.boardArray[i] = make([]int, 5)
@@ -153,19 +153,18 @@ func CalFit(s [] int) int{
 	var SumOc int
 	var gen Gen
 	for i:= 0; i < SESSIONS; i++{
-		gen.SetupBoard(50)
-		SumOc += gen.EvalStrategy(s)
+			gen.SetupBoard()
+			SumOc += gen.EvalStrategy(s)
 	}
 	return SumOc/ACTIONS
 }
 
 func CalculateFits(p [][]int) [] int{
-	fit := make([]int, POPULATION)
-
+	fit := make([] int, POPULATION)
 	for i:=0; i < POPULATION; i++{
-		fit[i] = CalFit(p[i])
-		fmt.Printf("individual: %d ", i)
-		fmt.Printf("fitness: %d\n", fit[i])
+			fit[i] = CalFit(p[i])
+			fmt.Printf("individual: %d ", i)
+			fmt.Printf("fitness: %d\n", fit[i])
 	}
 	return fit
 }
@@ -228,33 +227,24 @@ func PrintPopulation(population [][]int){
 		fmt.Printf("%d\n", population[i])
 	}
 }
-func main() {
-	//var c_x []int
-	//var c_y []int
-	//Setup_board(SIZE, SIZE, CANS, c_x, c_y)
-	//s := GenerateS()
-	//for i := 0; i < POPULATION; i++ {
-	//	fmt.Printf("Individual %d:\n",i)
-	//	for j := 0; j < SITUATIONS; j++ {		
-	//		fmt.Printf("%d", s[i][j])
-	//	}
-	//	fmt.Printf("\n")
-	//}
-	//	for i:=0; i < SIZE; i++{
-	//	fmt.Printf("\nCell %d:\n", i+1)
-	//	fmt.Printf("%d", gen.boardArray[i])
-	//	fmt.Print("  ")
-	//}
 
+func PrintFitness(f [] int){
+	for i :=0; i < POPULATION; i ++{
+		fmt.Printf("individual: %d\n",i)
+		fmt.Printf("fitness: %d\n",f[i])
+	}
+}
+func main() {
 	p := GenerateStrategies() // Initial population
 	fmt.Printf("=======Population=%d=======\n",1)
 	PrintPopulation(p)
+	//f := CalculateFits(p)
+	//PrintFitness(f)
 
 	for i :=0 ; i < 1000; i++{
 		fmt.Printf("=======Population=%d=======\n",i+2)
 		newp := NewGen(p)
 		p = newp
 		PrintPopulation(p)
-		
 	}
 }
