@@ -50,28 +50,6 @@ type Gen struct {
 }
 
 // setup board for robby. place soda cans around the map
-func (gen *Gen) SetupBoard2() [][]int {
-	gen.boardArray = make([][]int, SIZE)
-	for i := 0; i < SIZE; i++ {
-		gen.boardArray[i] = make([]int, 5)
-		if i < WIDTH { // north side has wall
-			gen.boardArray[i][0] = 1
-		}
-		if i >= SIZE-WIDTH { // south side has wall
-			gen.boardArray[i][1] = 1
-		}
-		if (i+1)%WIDTH == 0 { // east side has wall
-			gen.boardArray[i][2] = 1
-		}
-		if i%WIDTH == 0 { // west side has wall
-			gen.boardArray[i][3] = 1
-		}
-	}
-	gen.ResetBoard()
-	return gen.boardArray
-}
-
-// setup board for robby. place soda cans around the map
 func (gen *Gen) SetupBoard() [][]int {
 	gen.boardArray = make([][]int, SIZE)
 	for i := 0; i < SIZE; i++ {
@@ -259,30 +237,6 @@ func RankSelection(s []int) int {
 	}
 
 	return -1
-}
-
-func PickParents2(f []int) (int, int) {
-	o := make([]int, POPULATION)
-	copy(o, f)
-	sort.Ints(f)
-	fmt.Printf("%d\n", f)
-	f1 := rand.Intn(10)
-	f2 := rand.Intn(10)
-	var p1 int
-	var p2 int
-	for i := 0; i < POPULATION; i++ {
-		if f[POPULATION-10+f1] == o[i] {
-			p1 = i
-			break
-		}
-	}
-	for i := 0; i < POPULATION; i++ {
-		if f[POPULATION-10+f2] == o[i] {
-			p2 = i
-			break
-		}
-	}
-	return p1, p2
 }
 
 func PickParents(f []int) (int, int) {
